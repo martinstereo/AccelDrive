@@ -3,12 +3,12 @@
 #include "arduino_secrets.h"
 
 // Motor control pins
-#define ENA 9
-#define IN1 8
-#define IN2 7
-#define ENB 3
-#define IN3 5
-#define IN4 4
+#define ENA 11
+#define IN1 7
+#define IN2 8
+#define ENB 5
+#define IN3 9
+#define IN4 10
 
 // Wi-Fi credentials
 char ssid[] = SECRET_SSID;
@@ -79,10 +79,10 @@ void loop() {
   }
 
   // Small delay before the next loop
-  delay(100);
+  delay(50);
 }
 
-void moveForward() {
+void moveBackward() {
   digitalWrite(IN1, HIGH);
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, HIGH);
@@ -91,30 +91,30 @@ void moveForward() {
   analogWrite(ENB, 255);
 }
 
-void moveBackward() {
+void moveForward() {
   digitalWrite(IN1, LOW);
   digitalWrite(IN2, HIGH);
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
-  analogWrite(ENA, 255);
-  analogWrite(ENB, 255);
-}
-
-void turnLeft() {
-  digitalWrite(IN1, LOW);
-  digitalWrite(IN2, HIGH);
-  digitalWrite(IN3, HIGH);
-  digitalWrite(IN4, LOW);
   analogWrite(ENA, 255);
   analogWrite(ENB, 255);
 }
 
 void turnRight() {
-  digitalWrite(IN1, HIGH);
-  digitalWrite(IN2, LOW);
-  digitalWrite(IN3, LOW);
-  digitalWrite(IN4, HIGH);
+  digitalWrite(IN1, LOW);  // Right motor forward
+  digitalWrite(IN2, HIGH);
+  digitalWrite(IN3, LOW);   // Left motor stop
+  digitalWrite(IN4, LOW);
   analogWrite(ENA, 255);
+  analogWrite(ENB, 0);      // Stop left motor
+}
+
+void turnLeft() {
+  digitalWrite(IN1, LOW);   // Right motor stop
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);  // Left motor forward
+  digitalWrite(IN4, HIGH);
+  analogWrite(ENA, 0);      // Stop right motor
   analogWrite(ENB, 255);
 }
 
